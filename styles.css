@@ -722,6 +722,14 @@ input[type=range]::-moz-range-thumb {
     .side-panel {
         width: 300px;
     }
+
+    .help-hint {
+        padding: 8px 12px;
+    }
+
+    .help-hint > div {
+        gap: 8px;
+    }
 }
 
 @media (max-width: 900px) {
@@ -750,11 +758,37 @@ input[type=range]::-moz-range-thumb {
         right: 12px;
         transform: none;
         width: auto;
-        justify-content: space-between;
+        justify-content: center;
+        gap: 6px;
+        padding: 6px;
+    }
+
+    .bottom-btn {
+        width: 40px;
+        height: 40px;
     }
 
     .help-hint {
-        bottom: calc(120px + env(safe-area-inset-bottom));
+        bottom: calc(76px + env(safe-area-inset-bottom));
+        left: 12px;
+        right: 12px;
+        transform: none;
+        padding: 8px 12px;
+    }
+
+    .help-hint > div {
+        gap: 6px;
+    }
+
+    .help-hint kbd {
+        padding: 2px 5px;
+        font-size: 9px;
+    }
+
+    .info-overlay {
+        bottom: calc(76px + env(safe-area-inset-bottom));
+        font-size: 9px;
+        padding: 6px 8px;
     }
 }
 
@@ -770,8 +804,8 @@ input[type=range]::-moz-range-thumb {
     }
 
     .mesh-actions {
-        width: 100%;
-        justify-content: space-between;
+        width: auto;
+        justify-content: flex-end;
     }
 
     .mesh-name {
@@ -784,6 +818,69 @@ input[type=range]::-moz-range-thumb {
 
     .progress-container {
         width: 260px;
+    }
+
+    .bottom-bar {
+        gap: 4px;
+        padding: 5px;
+    }
+
+    .bottom-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+    }
+
+    .bottom-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .help-hint {
+        display: none;
+    }
+
+    .info-overlay {
+        bottom: calc(66px + env(safe-area-inset-bottom));
+        left: 8px;
+    }
+}
+
+@media (max-width: 400px) {
+    .top-bar {
+        left: 8px;
+        right: 8px;
+        top: 8px;
+    }
+
+    .brand-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .brand-text {
+        font-size: 12px;
+    }
+
+    .icon-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .bottom-bar {
+        left: 8px;
+        right: 8px;
+        bottom: calc(8px + env(safe-area-inset-bottom));
+    }
+
+    .bottom-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .info-overlay {
+        left: 8px;
+        bottom: calc(60px + env(safe-area-inset-bottom));
     }
 }
 
@@ -800,8 +897,8 @@ input[type=range]::-moz-range-thumb {
     }
 
     .bottom-btn {
-        width: 52px;
-        height: 52px;
+        width: 48px;
+        height: 48px;
         border-radius: 12px;
     }
 
@@ -810,8 +907,6 @@ input[type=range]::-moz-range-thumb {
     }
 
     .help-hint {
-        bottom: 130px;
-        font-size: 12px;
         display: none;
     }
 
@@ -828,7 +923,8 @@ input[type=range]::-moz-range-thumb {
     }
 
     .info-overlay {
-        display: none;
+        font-size: 9px;
+        padding: 6px 8px;
     }
 }
 
