@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tintal 3D - Visor Fotogram&eacute;trico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div id="canvas-container" aria-label="Visor 3D"></div>
+
+    <header class="top-bar">
+        <div class="brand">
+            <div class="brand-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+            </div>
+            <div class="brand-text">Photo<span>Mesh</span></div>
+        </div>
+        <div class="mesh-actions">
+            <div class="mesh-name">Tintal</div>
+            <button
+                class="icon-btn"
+                id="panelToggleBtn"
+                title="Configuraci&oacute;n"
+                aria-label="Configuraci&oacute;n"
+            >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="4" y1="6" x2="20" y2="6" />
+                    <line x1="4" y1="12" x2="20" y2="12" />
+                    <line x1="4" y1="18" x2="20" y2="18" />
+                    <circle cx="8" cy="6" r="2" fill="currentColor" />
+                    <circle cx="16" cy="12" r="2" fill="currentColor" />
+                    <circle cx="12" cy="18" r="2" fill="currentColor" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <aside class="side-panel collapsed" id="sidePanel" aria-label="Controles del visor">
+        <div class="panel-header">
+            <div>
+                <div class="panel-title">Controles</div>
+                <div class="panel-subtitle">Tintal Completo Oblicuas Nadir</div>
+            </div>
+            <button
+                class="icon-btn"
+                id="panelCloseBtn"
+                title="Ocultar panel"
+                aria-label="Ocultar panel"
+            >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                    <line x1="6" y1="18" x2="18" y2="6" />
+                </svg>
+            </button>
+        </div>
+
+        <section class="panel-section">
+            <div class="panel-label">Resumen</div>
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-label">V&eacute;rtices</div>
+                    <div class="stat-value" id="vertexCount">-</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Tri&aacute;ngulos</div>
+                    <div class="stat-value" id="faceCount">-</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Texturas</div>
+                    <div class="stat-value" id="textureCount">24</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel-section">
+            <div class="panel-label">Visualizaci&oacute;n</div>
+            <div class="controls-row">
+                <button class="control-btn active" id="texturedBtn" title="Texturizado">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                    </svg>
+                    <span>Texturas</span>
+                </button>
+                <button class="control-btn" id="wireBtn" title="Wireframe">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="12" y1="3" x2="12" y2="21" />
+                    </svg>
+                    <span>Wire</span>
+                </button>
+                <button class="control-btn" id="solidBtn" title="S&oacute;lido">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <circle cx="12" cy="12" r="9" />
+                    </svg>
+                    <span>S&oacute;lido</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="panel-section">
+            <div class="panel-label">Transformaci&oacute;n</div>
+            <div class="controls-stack">
+                <div class="control-group">
+                    <div class="control-label-row">
+                        <span>Rotaci&oacute;n X</span>
+                        <span id="rotXVal" class="panel-value accent small">-91&deg;</span>
+                    </div>
+                    <input type="range" id="rotX" min="-180" max="180" value="-91" />
+                </div>
+                <div class="control-group">
+                    <div class="control-label-row">
+                        <span>Rotaci&oacute;n Y</span>
+                        <span id="rotYVal" class="panel-value accent small">0&deg;</span>
+                    </div>
+                    <input type="range" id="rotY" min="-180" max="180" value="0" />
+                </div>
+                <div class="control-group">
+                    <div class="control-label-row">
+                        <span>Rotaci&oacute;n Z</span>
+                        <span id="rotZVal" class="panel-value accent small">53&deg;</span>
+                    </div>
+                    <input type="range" id="rotZ" min="-180" max="180" value="53" />
+                </div>
+                <button class="control-btn wide" id="resetTransformBtn">Resetear transformaci&oacute;n</button>
+            </div>
+        </section>
+
+        <section class="panel-section">
+            <div class="panel-label">Iluminaci&oacute;n</div>
+            <div class="controls-stack">
+                <label class="toggle-row">
+                    <input type="checkbox" id="unlitToggle" checked />
+                    <span>Modo sin luces (original)</span>
+                </label>
+                <div class="control-group">
+                    <div class="control-label-row">
+                        <span>Exposici&oacute;n</span>
+                        <span id="exposureVal" class="panel-value accent small">0.4</span>
+                    </div>
+                    <input type="range" id="exposureRange" min="0" max="300" value="40" />
+                </div>
+                <div class="control-group">
+                    <div class="control-label-row">
+                        <span>Luz ambiental</span>
+                        <span id="ambientVal" class="panel-value accent small">1.3</span>
+                    </div>
+                    <input type="range" id="ambientRange" min="0" max="200" value="130" />
+                </div>
+                <div class="control-group">
+                    <div class="control-label-row">
+                        <span>Luz direccional</span>
+                        <span id="dirVal" class="panel-value accent small">0.5</span>
+                    </div>
+                    <input type="range" id="dirRange" min="0" max="200" value="50" />
+                </div>
+            </div>
+        </section>
+
+        <section class="panel-section">
+            <div class="panel-label">Ajustes de imagen</div>
+            <div class="controls-stack">
+                <div class="control-group">
+                    <div class="control-label-row">
+                        <span>Opacidad</span>
+                        <span id="opacityVal" class="panel-value accent small">98%</span>
+                    </div>
+                    <input type="range" id="opacityRange" min="0" max="100" value="98" />
+                </div>
+                <div class="control-group">
+                    <div class="control-label-row">
+                        <span>Saturaci&oacute;n</span>
+                        <span id="saturateVal" class="panel-value accent small">163%</span>
+                    </div>
+                    <input type="range" id="saturateRange" min="0" max="200" value="163" />
+                </div>
+                <div class="control-group">
+                    <div class="control-label-row">
+                        <span>Contraste</span>
+                        <span id="contrastVal" class="panel-value accent small">136%</span>
+                    </div>
+                    <input type="range" id="contrastRange" min="50" max="150" value="136" />
+                </div>
+                <div class="control-group">
+                    <div class="control-label-row">
+                        <span>Brillo</span>
+                        <span id="brightnessVal" class="panel-value accent small">107%</span>
+                    </div>
+                    <input type="range" id="brightnessRange" min="50" max="150" value="107" />
+                </div>
+                <button class="control-btn wide" id="resetImageBtn">Resetear imagen</button>
+            </div>
+        </section>
+
+        <section class="panel-section">
+            <div class="panel-label">Atajos</div>
+            <div class="shortcut-grid">
+                <div class="shortcut"><kbd>F</kbd><span>Ajustar vista</span></div>
+                <div class="shortcut"><kbd>T</kbd><span>Vista superior</span></div>
+                <div class="shortcut"><kbd>Y</kbd><span>Vista frontal</span></div>
+                <div class="shortcut"><kbd>G</kbd><span>Grid</span></div>
+                <div class="shortcut"><kbd>1</kbd><span>Texturas</span></div>
+                <div class="shortcut"><kbd>2</kbd><span>Wire</span></div>
+                <div class="shortcut"><kbd>3</kbd><span>S&oacute;lido</span></div>
+            </div>
+        </section>
+    </aside>
+
+    <div class="bottom-bar" id="bottomBar">
+        <button class="bottom-btn" id="fitViewBtn" title="Ajustar vista (F)" data-label="Ajustar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+            </svg>
+        </button>
+        <button class="bottom-btn" id="topViewBtn" title="Vista superior (T)" data-label="Superior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="9" />
+                <circle cx="12" cy="12" r="3" />
+            </svg>
+        </button>
+        <button class="bottom-btn" id="frontViewBtn" title="Vista frontal (Y)" data-label="Frontal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+            </svg>
+        </button>
+        <button class="bottom-btn" id="gridBtn" title="Mostrar grid (G)" data-label="Grid">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" />
+                <line x1="3" y1="9" x2="21" y2="9" />
+                <line x1="3" y1="15" x2="21" y2="15" />
+                <line x1="9" y1="3" x2="9" y2="21" />
+                <line x1="15" y1="3" x2="15" y2="21" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="info-overlay" id="infoOverlay">
+        <div id="gridInfo">GRID: ON</div>
+        <div id="cameraInfo">CAM: -</div>
+    </div>
+
+    <div class="help-hint" id="helpHint">
+        <div class="hint-desktop">
+            <kbd>Scroll</kbd> Zoom
+            <kbd>Arrastrar</kbd> Rotar
+            <kbd>Derecho</kbd> Pan
+            <kbd>F</kbd> Ajustar
+        </div>
+        <div class="hint-touch">
+            <kbd>Pinch</kbd> Zoom
+            <kbd>1 dedo</kbd> Rotar
+            <kbd>2 dedos</kbd> Pan
+        </div>
+    </div>
+
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+        </div>
+        <h1 class="loading-title">Cargando <span>Tintal</span></h1>
+        <p class="loading-subtitle">Modelo fotogram&eacute;trico 3D</p>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text">
+                <span id="progressPercent">0%</span>
+                <span id="progressSize">0 / 278 MB</span>
+            </div>
+        </div>
+
+        <div class="loading-status" id="loadingStatus">Iniciando...</div>
+
+        <p class="loading-tip">Consejo: usa el scroll para zoom, y arrastra para rotar.</p>
+    </div>
+
+    <div class="error-screen" id="errorScreen">
+        <div class="error-icon">!</div>
+        <h2 class="error-title">Error al cargar el modelo</h2>
+        <p class="error-message" id="errorMessage">
+            No se pudo cargar el modelo. Verifica tu conexi&oacute;n a internet.
+        </p>
+        <button class="retry-btn" onclick="location.reload()">Reintentar</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/MTLLoader.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

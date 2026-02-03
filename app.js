@@ -104,6 +104,14 @@ function init() {
     state.controls.minDistance = 1;
     state.controls.maxDistance = 10000;
     state.controls.zoomSpeed = 1.5;
+    state.controls.enableRotate = true;
+    state.controls.enableZoom = true;
+    state.controls.enablePan = true;
+    state.controls.screenSpacePanning = true;
+    state.controls.touches = {
+        ONE: THREE.TOUCH.ROTATE,
+        TWO: THREE.TOUCH.DOLLY_PAN
+    };
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.3);
     ambientLight.name = 'ambient';
