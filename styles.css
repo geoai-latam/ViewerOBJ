@@ -812,6 +812,7 @@ input[type=range]::-moz-range-thumb {
     .help-hint {
         bottom: 130px;
         font-size: 12px;
+        display: none;
     }
 
     .help-hint .hint-desktop {
@@ -824,6 +825,10 @@ input[type=range]::-moz-range-thumb {
 
     .side-panel {
         max-height: 60vh;
+    }
+
+    .info-overlay {
+        display: none;
     }
 }
 
