@@ -2,7 +2,10 @@ const CONFIG = {
     baseURL: 'https://pub-f92ec188234b4317a2692473956f6954.r2.dev/tintal/',
     objFile: 'Mesh.obj',
     mtlFile: 'Mesh.mtl',
-    totalSize: 278 * 1024 * 1024,
+    // 278 MB de malla MÁS 463 MB de texturas. Antes esta cifra solo contaba
+    // el OBJ, así que la barra decía "0 / 278 MB" mientras en realidad se
+    // descargaban 741 y llegaba al 100% con más de la mitad por bajar.
+    totalSize: 741 * 1024 * 1024,
     initialView: {
         azimuth: 40,
         elevation: 28,
@@ -131,7 +134,26 @@ function init() {
     bindUI();
     window.addEventListener('resize', onResize);
     animate();
-    loadModel();
+
+    // El modelo NO se carga acá. Son ~741 MB y descargarlos sin que nadie los
+    // pida es cobrarle el plan de datos a quien solo abrió el enlace. Espera
+    // al botón de la pantalla inicial.
+    const startBtn = $('startBtn');
+    if (startBtn) {
+        startBtn.addEventListener('click', () => {
+            const panel = $('startPanel');
+            if (panel) panel.hidden = true;
+            const cont = $('progressContainer');
+            if (cont) cont.hidden = false;
+            const status = $('loadingStatus');
+            if (status) status.hidden = false;
+            loadModel();
+        }, { once: true });
+    } else {
+        // Sin botón en el DOM (index.html viejo), se mantiene el comportamiento
+        // anterior para no dejar el visor inservible.
+        loadModel();
+    }
 }
 
 function bindUI() {

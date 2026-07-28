@@ -268,20 +268,33 @@
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
         </div>
-        <h1 class="loading-title">Cargando <span>Tintal</span></h1>
+        <h1 class="loading-title"><span>Tintal</span></h1>
         <p class="loading-subtitle">Modelo fotogram&eacute;trico 3D</p>
 
-        <div class="progress-container">
+        <!-- El modelo NO se descarga solo. Son ~741 MB: 278 de malla y 463 de
+             texturas. En un plan de datos m&oacute;vil eso es la factura del mes, as&iacute;
+             que se pide primero y se dice cu&aacute;nto pesa. -->
+        <div id="startPanel">
+            <p class="loading-tip" style="margin-bottom: 18px">
+                El modelo pesa <strong>~741 MB</strong> (malla y texturas).<br />
+                Con datos m&oacute;viles, mejor d&eacute;jalo para cuando tengas wifi.
+            </p>
+            <button class="retry-btn" id="startBtn" type="button">
+                Cargar el modelo 3D
+            </button>
+        </div>
+
+        <div class="progress-container" id="progressContainer" hidden>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
             <div class="progress-text">
                 <span id="progressPercent">0%</span>
-                <span id="progressSize">0 / 278 MB</span>
+                <span id="progressSize">0 / 741 MB</span>
             </div>
         </div>
 
-        <div class="loading-status" id="loadingStatus">Iniciando...</div>
+        <div class="loading-status" id="loadingStatus" hidden>Iniciando...</div>
 
         <p class="loading-tip">Consejo: usa el scroll para zoom, y arrastra para rotar.</p>
     </div>
@@ -295,10 +308,30 @@
         <button class="retry-btn" onclick="location.reload()">Reintentar</button>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/MTLLoader.js"></script>
+    <!-- integrity + crossorigin: sin esto el navegador ejecuta lo que sea que
+         devuelva el CDN, y este visor se sirve desde el mismo origen que el
+         sitio y su formulario de suscripción. Con SRI, si el archivo cambia
+         un solo byte el navegador lo rechaza. -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+        integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"
+        integrity="sha384-wagZhIFgY4hD+7awjQjR4e2E294y6J2HSnd8eTNc15ZubTeQeVRZwhQJ+W6hnBsf"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"
+        integrity="sha384-UWFC8mrevmKCZhKbJ/8/dqLrRAvHArRwJCKjwruJuXyhsebGMFsIK5zrn+R9r+fT"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/MTLLoader.js"
+        integrity="sha384-3YljIMKl/XEbvorEW5PsmELaNNzJxReJMpvhbpYScnKrnRDI8kmxmksZx4HNCxu3"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
     <script src="app.js"></script>
 </body>
 </html>
